@@ -1,13 +1,20 @@
 function createStore(reducer, initialState) {
   let state = initialState;
+  const listeners = [];
 
   const getState = () => (state);
 
+  const subscribe = (listener) => (
+    listeners.push(listener)
+  );
+
   const dispatch = (action) => {
     state = reducer(state, action);
+    listeners.forEach(l => l());
   };
 
   return {
+    subscribe,
     getState,
     dispatch,
   };
@@ -34,6 +41,13 @@ function reducer(state, action) {
 const initialState = { messages: []};
 const store = createStore(reducer, initialState);
 
+// adding listener for action dispatch
+const listener = () => {
+  console.log('Current state: ' + store.getState());
+}
+// subscribe
+store.subscribe(listener);
+
 // action
 const addMessageAction1 = {
   type: 'ADD_MESSSAGE',
@@ -51,8 +65,8 @@ const addMessageAction2 = {
 store.dispatch(addMessageAction2);
 const stateV2 = store.getState();
 
-console.log('State V1: ' + stateV1);
-console.log('State V2: ' + stateV2);
+//console.log('State V1: ' + stateV1);
+//console.log('State V2: ' + stateV2);
 
 const deleteMessageAction = {
   type: 'DELETE_MESSAGE',
@@ -62,4 +76,4 @@ const deleteMessageAction = {
 store.dispatch(deleteMessageAction);
 const stateV3 = store.getState();
 
-console.log('State V3: ' + stateV3);
+//console.log('State V3: ' + stateV3);
