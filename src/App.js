@@ -30,6 +30,8 @@ function reducer(state, action) {
     };
   } else if (action.type === 'DELETE_MESSAGE') {
     return {
+      //another complex part
+      // .. spread operator for array construction and destruction
       messages: [
         ...state.messages.slice(0, action.index),
         ...state.messages.slice(
