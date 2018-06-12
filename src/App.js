@@ -12,6 +12,7 @@ function createStore(reducer, initialState) {
 
   const dispatch = (action) => {
     state = reducer(state, action);
+    // this is more complex part
     listeners.forEach(l => l());
   };
 
